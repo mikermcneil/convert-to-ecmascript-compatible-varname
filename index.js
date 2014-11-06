@@ -32,13 +32,9 @@ module.exports = function makeECMAScriptCompatible(str) {
   // unicode characters, but we're preventing that here.  Because... cm'on, really?)
   str = str.replace(X_INVALID_FIRST_CHARACTER, '');
 
-  // Ensure there is at least one character
-  // (in case we wiped everything out with the replacements above)
-  str = str.replace(/^$/, '$');
-
   // One last check to make sure we ended up with a valid variable name:
-  if (str.match(X_VALID_ECMA51_VARNAME)) {
-    throw new Error(util.format('Invalid string: "%s"', str));
+  if (!str.match(X_VALID_ECMA51_VARNAME)) {
+    throw new Error(util.format('The string "%s" cannot be converted into an ECMAScript 5.1-compatible variable name.', str));
   }
 
   return str;

@@ -4,4 +4,4 @@
  * @type {RegExp}
  */
 
-module.exports = /^[^a-zA-Z$]/;
+module.exports = /^[^a-zA-Z$\_]/;
