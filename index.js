@@ -19,6 +19,9 @@ var X_INVALID_FIRST_CHARACTER = require('./X_INVALID_FIRST_CHARACTER');
 
 module.exports = function makeECMAScriptCompatible(str) {
 
+  // Save original string for error messages and such.
+  var original = str;
+
   // Camel-case dash-delimited things
   str = str.replace(/-+([a-z])/g, function($all, $1) {
     return $1.toUpperCase();
@@ -34,7 +37,7 @@ module.exports = function makeECMAScriptCompatible(str) {
 
   // One last check to make sure we ended up with a valid variable name:
   if (!str.match(X_VALID_ECMA51_VARNAME)) {
-    throw new Error(util.format('The string "%s" cannot be converted into an ECMAScript 5.1-compatible variable name.', str));
+    throw new Error(util.format('The string "%s" cannot be converted into an ECMAScript 5.1-compatible variable name.', original));
   }
 
   return str;
