@@ -36,8 +36,13 @@ module.exports = function makeECMAScriptCompatible(str) {
   str = str.replace(X_INVALID_FIRST_CHARACTER, '');
 
   // One last check to make sure we ended up with a valid variable name:
+  // (i.e. don't clash with special JavaScript keywords, like "delete")
   if (!str.match(X_VALID_ECMA51_VARNAME)) {
-    throw new Error(util.format('The string "%s" cannot be converted into an ECMAScript 5.1-compatible variable name.', original));
+    throw (function (){
+      var e = new Error(util.format('The string "%s" cannot be converted into an ECMAScript 5.1-compatible variable name.  "%s" collides with a JavaScript reserved word.', original));
+      e.code = 'RESERVED';
+      return e;
+    })();
   }
 
   return str;
